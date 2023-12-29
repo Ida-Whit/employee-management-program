@@ -1,0 +1,16 @@
+{
+  "name": "employee-management-program",
+  "version": "1.0.0",
+  "description": "employee management program",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "employee-management-program"
+  },
+  "author": "Ida Whitcomb",
+  "license": "ISC"
+}
