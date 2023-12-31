@@ -17,30 +17,43 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_management_db database.`)
 );
 
-
-db.query('SELECT * FROM department', function (err, results) {
-  console.log(results);
-})
-
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-});
-
-/*inquirer
+inquirer
   .prompt([
     {
-      
-    },
-    {
-      
-    },
-    {
-      
-    },
-  ])
-  .then
-*/
+      type: 'list',
+      message: 'What would you like to do?',
+      name: 'answer',
+      choices:
+      ['View all departments.',
+      'View all roles.',
+      'View all employees.',
+      'Add a department.',
+      'Add a role.',
+      'Add an employee.',
+      'Update an employee role.',
+      'Exit.']
+    }
+  ]) .then((response) => {
+    if(response.answer === 'View all departments.') {
+      viewDepartment();
+    } else if (response.answer === 'View all roles.') {
+      viewRoles();
+    } else if (response.answer === 'View all employees.') {
+      viewEmployees();
+    } else if (response.answer === 'Add a department.') {
+      addDepartment();
+    } else if (response.answer === 'Add a role.') {
+      addRole();
+    } else if (response.answer === 'Add an employee.') {
+      addEmployee();
+    } else if (response.answer === 'Update an employee role.') {
+      changeRole();
+    } else {
+      db.end();
+        console.log("Thanks for using Employee Management System.")
+    }
+  })
+
 
 
 //View all departments
@@ -65,12 +78,30 @@ function viewEmployees(){
   //Start inquirer function again
 }
 //Add a department
+function addDepartment(){
 
+  //Start inquirer function again
+}
 //Add a role
+function addRole(){
 
+  //Start inquirer function again
+}
 //Add an employee
+function addEmployee(){
 
+  //Start inquirer function again
+}
 //Update an employees role
+function changeRole(){
+
+  //Start inquirer function again
+}
+
+// Default response for any other request (Not Found)
+app.use((req, res) => {
+  res.status(404).end();
+});
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
