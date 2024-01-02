@@ -14,6 +14,9 @@ CREATE TABLE role (
   title VARCHAR(30) NOT NULL,
   salary DECIMAL NOT NULL,
   department_id INT NOT NULL
+  FOREIGN KEY (department_id)
+  REFERENCES department(id)
+  ON DELETE SET NULL
 );
 
 CREATE TABLE employee (
@@ -22,4 +25,19 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
   manager_id INT
+  FOREIGN KEY (role_id)
+  REFERENCES role(id)
+  ON DELETE SET NULL
 );
+
+SELECT employee.first_name,
+      employee.last_name,
+      employee.manager_id,
+      role.title,
+      role.salary,
+      department.department_name
+FROM employee
+JOIN role 
+ON role_id
+JOIN department
+on role.department_id=department_id
