@@ -71,7 +71,7 @@ function init() {
 //View all departments
 function viewDepartment(){
   db.query('SELECT * FROM department', function (err, results) {
-    console.log(results);
+    console.table(results);
     init();
   });
 }
@@ -79,7 +79,7 @@ function viewDepartment(){
 //job title, role id, department for that role and salary for that role
 function viewRoles(){
   db.query('SELECT * FROM role', function (err, results) {
-    console.log(results);
+    console.table(results);
     init();
   });
 }
@@ -87,12 +87,11 @@ function viewRoles(){
 //employee first and last name, job title, department, salary, manager
 function viewEmployees(){
   db.query('SELECT * FROM employee', function (err, results) {
-    console.log(results);
+    console.table(results);
     init();
   });
 }
 //Add a department
-//prompted to enter name of department and it gets added
 function addDepartment(){
   inquirer.prompt([
     {
@@ -101,15 +100,16 @@ function addDepartment(){
       name: "department"
     },
   ]) .then((response) => {
-    db.query('INSERT INTO department (department_name) VALUE(?)', function (err, results) {
-      console.log(results);
-    });
-    db.query('SELECT * FROM department', function (err, results) {
-      console.log(results);
+    db.query('INSERT INTO department (department_name) VALUES (?)', (response.department));
+    const sql = 'SELECT * FROM department';
+    db.query(sql, function(err, res) {
+      if(err) throw err;
+      console.log(response.department + ' added successfully.');
+      console.table(res);
       init();
-    });
-  });
-}
+    })
+});
+};
 //Add a role
 //prompted to enter name, salary, department for the role and role gets added
 function addRole(){
