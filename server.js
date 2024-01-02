@@ -79,6 +79,7 @@ function viewDepartment(){
 //job title, role id, department for that role and salary for that role
 function viewRoles(){
   db.query('SELECT * FROM role', function (err, results) {
+    if(err) throw err;
     console.table(results);
     init();
   });
@@ -87,6 +88,7 @@ function viewRoles(){
 //employee first and last name, job title, department, salary, manager
 function viewEmployees(){
   db.query('SELECT * FROM employee', function (err, results) {
+    if(err) throw err;
     console.table(results);
     init();
   });
@@ -113,9 +115,33 @@ function addDepartment(){
 //Add a role
 //prompted to enter name, salary, department for the role and role gets added
 function addRole(){
-
-  init();
-}
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "Please enter role title.",
+      name: "title"
+    },
+    {
+      type: "input",
+      message: "Please enter role salary.",
+      name: "salary"
+    },
+    {
+      type: "input",
+      message: "Please enter department for this new role.",
+      name: "department"
+    },
+  ]) .then((response) => {
+    db.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [response.title, response.salary, response.department]);
+    const sql = 'SELECT * FROM role';
+    db.query(sql, function(err, res) {
+      if(err) throw err;
+      console.log('New role added successfully.');
+      console.table(res);
+      init();
+    })
+});
+ }
 //Add an employee
 //first and last name, role, manager and employee gets added
 function addEmployee(){
