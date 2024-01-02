@@ -86,6 +86,9 @@ function viewRoles(){
 //View all employees
 //employee first and last name, job title, department, salary, manager
 function viewEmployees(){
+
+  db.query('SELECT employee.first_name, employee.last_name, employee,manager_id, role.title, role.salary, department.department_ Fname FROM employee JOIN role ON role_id JOIN department on role.department_id=department_id');
+
   db.query('SELECT * FROM employee', function (err, results) {
     if(err) throw err;
     console.table(results);
@@ -182,10 +185,52 @@ function addEmployee(){
 });
 }
 //Update an employees role
-//prompted to select an employee and update their role and the database is updated.
 function changeRole(){
-
-}
+  db.query(`SELECT * FROM employee`, (err, employee_result) => {
+    if (err) throw err;
+    db.query(`SELECT * FROM role`, (err, role_result) => {
+          if (err) throw err;
+          inquirer.prompt([
+        {
+          name: "employee",
+          type: "list",
+          message: "Which employee would you like to update?",
+          choices: () =>
+          employee_result.map(
+              (employee_result) => employee_result.first_name + " " + employee_result.last_name
+            ),
+        },
+        {
+          name: "role",
+          type: "list",
+          message: "Which role do you want to assign the selected employee?",
+          choices: () =>
+          role_result.map(
+              (role_result) => role_result.title
+            ),
+        },
+      ])
+      .then((answers) => {
+        const roleID = role_result.filter((role_result) => role_result.title === answers.role)[0].id;
+        const empID = employee_result.filter((employee_result) => employee_result.first_name + " " + employee_result.last_name === answers.employee)[0].id;
+        db.query(
+          `UPDATE employee SET ? WHERE ?`,
+          [{ 
+            role_id: roleID
+          },
+          {
+            id: empID
+          }],
+          function (err) {
+            if (err) throw err;
+            console.log(answers.employee + "'s role is successfully updated!");
+            init();
+          }
+        );
+       });
+    })
+  })
+};
 
 init();
 
