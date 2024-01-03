@@ -29,3 +29,15 @@ CREATE TABLE employee (
     REFERENCES role(id)
     ON DELETE SET NULL
 );
+
+
+SELECT
+  r.title AS employee_role_title,
+  m.first_name AS manager_first_name,
+  m.last_name AS manager_last_name
+FROM
+  employee e
+JOIN
+  role r ON e.role_id = r.id
+LEFT JOIN
+  employee m ON e.manager_id = m.id;;
