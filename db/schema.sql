@@ -15,8 +15,8 @@ CREATE TABLE role (
   salary DECIMAL NOT NULL,
   department_id INT NOT NULL
   FOREIGN KEY (department_id)
-  REFERENCES department(id)
-  ON DELETE SET NULL
+    REFERENCES department(id)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE employee (
@@ -24,10 +24,10 @@ CREATE TABLE employee (
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
-  manager_id INT
+  manager_id INT,
   FOREIGN KEY (role_id)
-  REFERENCES role(id)
-  ON DELETE SET NULL
+    REFERENCES role(id)
+    ON DELETE SET NULL
 );
 
 SELECT employee.first_name,
@@ -41,3 +41,8 @@ JOIN role
 ON role_id
 JOIN department
 on role.department_id=department_id
+
+ db.query ('SELECT role.title, employee.first_name, employee.last_name FROM role LEFT JOIN employee ON role_id = role.id', function (err, res) {
+    if(err) throw err;
+    console.table(res);
+  })

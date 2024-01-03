@@ -87,11 +87,9 @@ function viewRoles(){
 //employee first and last name, job title, department, salary, manager
 function viewEmployees(){
 
-  db.query('SELECT employee.first_name, employee.last_name, employee,manager_id, role.title, role.salary, department.department_ Fname FROM employee JOIN role ON role_id JOIN department on role.department_id=department_id');
-
-  db.query('SELECT * FROM employee', function (err, results) {
+  db.query('SELECT employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.department_name FROM employee JOIN role ON employee.role_id=role.id JOIN department on role.department_id=department_id', (err, res) => {
     if(err) throw err;
-    console.table(results);
+    console.table(res)
     init();
   });
 }
@@ -186,51 +184,33 @@ function addEmployee(){
 }
 //Update an employees role
 function changeRole(){
-  db.query(`SELECT * FROM employee`, (err, employee_result) => {
-    if (err) throw err;
-    db.query(`SELECT * FROM role`, (err, role_result) => {
-          if (err) throw err;
-          inquirer.prompt([
+  db.query('SELECT first_name, last_name FROM employee', (err, employees) => {
+    if(err) throw err;(
+    db.query('SELECT title FROM role', (err, roles) => {
+      if(err) throw err;
+      inquirer.prompt([
         {
+          type: "list",
+          message: "Please select the employee whose role you would like to switch.",
           name: "employee",
-          type: "list",
-          message: "Which employee would you like to update?",
-          choices: () =>
-          employee_result.map(
-              (employee_result) => employee_result.first_name + " " + employee_result.last_name
-            ),
-        },
+          choices: employees.map((employee) => employee.first_name + " " + employee.last_name)
+      },
         {
-          name: "role",
           type: "list",
-          message: "Which role do you want to assign the selected employee?",
-          choices: () =>
-          role_result.map(
-              (role_result) => role_result.title
-            ),
-        },
-      ])
-      .then((answers) => {
-        const roleID = role_result.filter((role_result) => role_result.title === answers.role)[0].id;
-        const empID = employee_result.filter((employee_result) => employee_result.first_name + " " + employee_result.last_name === answers.employee)[0].id;
-        db.query(
-          `UPDATE employee SET ? WHERE ?`,
-          [{ 
-            role_id: roleID
-          },
-          {
-            id: empID
-          }],
-          function (err) {
-            if (err) throw err;
-            console.log(answers.employee + "'s role is successfully updated!");
-            init();
-          }
-        );
-       });
+          message: "Please select the new role you would like to assign to this employee.",
+          name: "role_title",
+          choices: roles.map((role) => role.title)
+      },
+      ]).then((answers) => {
+        db.query('UPDATE employee SET role_id = (SELECT id FROM role WHERE title = ?) WHERE first_name = ? AND last_name = ?', [answers.role_title, answers.employee.split(" ")[0], answers.employee.split(" ")[1]], (err, response) => {
+          if(err) throw err
+          console.log(answers.employee + "'s role was successfully updated!");
+          init();
+        })
     })
-  })
-};
+  }));
+  });
+  };
 
 init();
 
