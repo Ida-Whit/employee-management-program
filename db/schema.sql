@@ -13,7 +13,7 @@ CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL NOT NULL,
-  department_id INT NOT NULL
+  department_id INT,
   FOREIGN KEY (department_id)
     REFERENCES department(id)
     ON DELETE SET NULL
@@ -21,28 +21,11 @@ CREATE TABLE role (
 
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30) NOT NULL,
+  first_name VARCHAR(30) NOT NULL, 
   last_name VARCHAR(30) NOT NULL,
-  role_id INT NOT NULL,
+  role_id INT,
   manager_id INT,
   FOREIGN KEY (role_id)
     REFERENCES role(id)
     ON DELETE SET NULL
 );
-
-SELECT employee.first_name,
-      employee.last_name,
-      employee.manager_id,
-      role.title,
-      role.salary,
-      department.department_name
-FROM employee
-JOIN role 
-ON role_id
-JOIN department
-on role.department_id=department_id
-
- db.query ('SELECT role.title, employee.first_name, employee.last_name FROM role LEFT JOIN employee ON role_id = role.id', function (err, res) {
-    if(err) throw err;
-    console.table(res);
-  })

@@ -14,8 +14,8 @@ VALUES ("Financial Advisor", 100000, 3),
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Kimberly", "Munson", 2, 2),
-        ("Osborne", "Lucas", 3, 1),
-        ("Timothy", "Truman", 1, 5),
-        ("Buck", "Hamilton", 3, 3),
-        ("Danita", "Snelling", 4, 6),
-        ("Madoline", "Toller", 4, 4);
+        ("Osborne", "Lucas", 3, null),
+        ("Timothy", "Truman", 1, 2),
+        ("Buck", "Hamilton", 5, 6),
+        ("Danita", "Snelling", 4, null),
+        ("Madoline", "Toller", 6, 5);

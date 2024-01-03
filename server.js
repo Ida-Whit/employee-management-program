@@ -77,17 +77,29 @@ function viewDepartment(){
 }
 //View all roles
 function viewRoles(){  
-  db.query('SELECT role.id AS role_id, role.title, role.salary, department.id AS department_id, department.department_name FROM role INNER JOIN department ON role.department_id=department.id', function (err, results) {
+  db.query('SELECT role.id AS role_id, role.title, role.salary, department.department_name FROM role INNER JOIN department ON role.department_id=department.id', function (err, results) {
     if(err) throw err;
     console.table(results);
   });
     init();
   };
 //View all employees
-//employee first and last name, job title, department, salary, manager
 function viewEmployees(){
 
-  db.query('SELECT employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, department.department_name FROM employee JOIN role ON employee.role_id=role.id JOIN department on role.department_id=department_id', (err, res) => {
+  db.query(`SELECT
+  e.id,
+  e.first_name,
+  e.last_name,
+  e.manager_id,
+  r.title,
+  r.salary,
+  d.department_name,
+  m.first_name AS manager_first_name,
+  m.last_name AS manager_last_name
+  FROM employee e
+  LEFT JOIN employee m ON e.manager_id = m.id
+  LEFT JOIN role r ON e.role_id=r.id
+  LEFT JOIN department d on r.department_id=d.id`, (err, res) => {
     if(err) throw err;
     console.table(res)
     init();
