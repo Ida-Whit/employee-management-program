@@ -250,6 +250,7 @@ function changeRole() {
   });
 };
 
+//Start inquiry
 init();
 
 // Default response for any other request (Not Found)
