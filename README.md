@@ -7,7 +7,8 @@ This is a program meant to assist business owners with keeping track of their em
 N/Q
 
 ## Visuals
-
+Video Walkthrough: https://drive.google.com/file/d/11Nt8nvbfAlGs8EFtGDpHeEAwgZlpyJyu/view
+<img src="/Terminal.png>
 
 ## Installation
 In order to use this program, the user must run 'npm i' on their terminal to install all the needed dependencies. Once this is complete, the user will need to add the database and tables to their computer using SQL and the db files. Once this is complete, the user can access the terminal through the server.js file and begin the program by inputting 'node server.js'.

@@ -7,9 +7,9 @@ VALUES ("Human Resources"),
         ("Operations");
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Human Resources Management", 80000, 4),
-        ("Human Resources Coordinator", 65000, 1),
-        ("Benefits Administrator", 60000, 1),
+VALUES ("HR Management", 80000, 4),
+        ("HR Coordinator", 65000, 1),
+        ("Benefits Admin.", 60000, 1),
         ("Office Manager", 70000 , 4),
         ("Data Entry Clerk", 55000, 2),
         ("Administrative Assistant", 55000, 2),
@@ -18,10 +18,10 @@ VALUES ("Human Resources Management", 80000, 4),
         ("Head of Finance", 120000, 3),
         ("General Manager", 120000, 4),
         ("Branch Manager", 100000, 4),
-        ("Customer Service Representative", 50000, 5),
+        ("Customer Service Rep.", 50000, 5),
         ("Project Manager", 80000, 5),
         ("Field Technician", 55000, 6),
-        ("Foreman", 90000, 6)
+        ("Foreman", 90000, 6),
         ("Operations Manager", 80000, 4);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
